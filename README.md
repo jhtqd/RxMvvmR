@@ -43,6 +43,10 @@
   2.连接点的绑定：绑定后，双向同步即可正常工作  
   3.连接点更多绑定：例如：密码输入6位以上，登录按钮才变为可用，此时，密码的连接点需要更多的绑定，用以更新登录按钮  
   4.业务逻辑的处理（网络交互部分转给Model处理）  
+# Router
+  Router是简单的extension扩展，并未采用url模式的路由  
+  每个VC都定义如何显示自己的路由方法，提供给其他VC模块使用  
+  注：有的路由方案是把VC要跳转其他VC的方法放在自己的路由对象里，供自己使用，与本方案是不同的  
   
 # Code Example
   基类封装了一些细节，业务中实际使用的类并不复杂，此处忽略部分无关代码。  
@@ -131,6 +135,18 @@ extension LoginVM{
             )
             .disposed(by: bag)
     }
+}
+```
+  
+Router样例：
+```swift  
+  extension MvvmRouter{    
+    static func showTableView1VC(fromVC:UIViewController?,user:User?){
+        let vcraw = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "TableView1VC")
+        let vc = vcraw as! TableView1VC
+        vc.createMvvm(user: user)
+        fromVC?.showVCAuto(vc: vc)
+    }    
 }
 ```
 
