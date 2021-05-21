@@ -32,6 +32,11 @@
       ....
     }
 ```    
+  数据属性定义方式：
+  1.对于可以有合理默认值的类型：例如：String，数字，Bool，一律定义为非空：var name:String = ""
+  2.对于默认值可能不合理的类型：例如：Date 定义为可空：var birthday:Date?
+  3.对于实体对象,可空：例如：var user:User?
+  4.对于数组，不可空：例如：var blogs:[Blog] = []
 # ViewModel
   ViewModel是核心，实现了与View，与Model的双向绑定  
      
