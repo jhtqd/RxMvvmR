@@ -14,7 +14,6 @@ class LoginVC: MvvmBaseUIViewController<LoginVM,LoginM>{
     
     func createMvvm(){
         self.vm = LoginVM(vc:self,m:LoginM())
-        vm.m.vm = vm
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,9 +49,9 @@ class LoginVC: MvvmBaseUIViewController<LoginVM,LoginM>{
 extension LoginVC{
     func fillDebugData(){
         DispatchQueue.main.asyncAfter(deadline: .now()+1) {
-            self.vm.usernameWrapper.next("test")
-            self.vm.passwordWrapper.next("123456")
-            self.vm.isAbcWrapper.next(true)
+            self.vm.usernameWrapper.next("new name test_user load from remote")
+            self.vm.passwordWrapper.next("666666")
+            self.vm.isAbcWrapper.next(false)
             let adate = Date(timeIntervalSince1970: 1000)
             self.vm.birthdayWrapper.next(adate)
         }

@@ -13,14 +13,16 @@ import RxCocoa
 class LoginM : MvvmM{
     weak var vm:LoginVM?
 
-    var username:String = ""
-    var password:String = ""
+    var username:String = "test_user load from local"
+    var password:String = "123456"
     var isAbc:Bool = false
-    var birthday:Date?
+    var birthday:Date? = Date()
         
     func requestLogin()->PublishSubject<User>{
         let r = PublishSubject<User>()
-        DispatchQueue.global().asyncAfter(deadline: .now() + 1, execute: {
+        print("模拟登录中。。预计耗时0.01秒");
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.01, execute: {
+            print("模拟登录完成");
             let u = User()
             u.id = 1
             u.name = "jht"

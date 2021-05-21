@@ -14,6 +14,13 @@ open class MvvmVM<TypeM>{
     
     let bag:DisposeBag = DisposeBag()
     
+    public func reload<ValueType>(_ wrapper:SubjectWrapper_Ro<ValueType>){
+        wrapper.current(self)
+    }
+    public func reload<ValueType>(_ wrapper:SubjectWrapper<ValueType>){
+        wrapper.current(self)
+    }
+
     open class SubjectWrapper<ValueType>{
         var subject = PublishSubject<ValueType>()
         let keyPath:WritableKeyPath<TypeM,ValueType>
@@ -22,6 +29,10 @@ open class MvvmVM<TypeM>{
             self.keyPath = keyPath
         }
         func next(_ v:ValueType){
+            self.subject.onNext(v)
+        }
+        func current(_ vm:MvvmVM<TypeM>){
+            let v = vm.m![keyPath: keyPath]
             self.subject.onNext(v)
         }
     }
@@ -34,6 +45,10 @@ open class MvvmVM<TypeM>{
             self.keyPath = keyPath
         }
         func next(_ v:ValueType){
+            self.subject.onNext(v)
+        }
+        func current(_ vm:MvvmVM<TypeM>){
+            let v = vm.m![keyPath: keyPath]
             self.subject.onNext(v)
         }
     }
@@ -50,6 +65,7 @@ extension MvvmVM {
             self.m?[keyPath:wrapper.keyPath] = s
         }).disposed(by: bag)
         wrapper.subject.subscribe(onNext: bindFunc).disposed(by: bag)
+        wrapper.current(self)
     }
 
     func bind<ValueType>(_ wrapper:SubjectWrapper_Ro<ValueType>,ctl:Binder<ValueType>){
@@ -57,6 +73,7 @@ extension MvvmVM {
             self.m?[keyPath:wrapper.keyPath] = s
         }).disposed(by: bag)
         wrapper.subject.bind(to: ctl).disposed(by: bag)
+        wrapper.current(self)
     }
 
     func bind_Table<ItemType,CellType:UITableViewCell>(
@@ -75,10 +92,12 @@ extension MvvmVM {
             self.m?[keyPath:wrapper.keyPath] = s
         }).disposed(by: bag)
         
-        wrapper.subject.bind(to: ctl.rx.items(cellIdentifier: cellIdentifier, cellType: cellType)){(row,element, cell) in
+        wrapper.subject.bind(to: ctl.rx.items(cellIdentifier: cellIdentifier, cellType: cellType)){
+            (row,element, cell) in
             cellfunc(row,element, cell)
         }
         .disposed(by: bag)
+        wrapper.current(self)
     }
 }
 
@@ -97,35 +116,39 @@ extension MvvmVM {
         wrapper.subject.debug().subscribe(onNext: { s in
             self.m?[keyPath:wrapper.keyPath] = s
         }).disposed(by: bag)
-        ctl.rx.text.orEmpty.bind(to:wrapper.subject).disposed(by: bag)
         wrapper.subject.bind(to: ctl.rx.text).disposed(by: bag)
+        wrapper.current(self)
+        ctl.rx.text.orEmpty.bind(to:wrapper.subject).disposed(by: bag)
     }
     
     func bind(_ wrapper:SubjectWrapper<String>,ctl:UITextView){
         wrapper.subject.debug().subscribe(onNext: { s in
             self.m?[keyPath:wrapper.keyPath] = s
         }).disposed(by: bag)
-        ctl.rx.text.orEmpty.bind(to:wrapper.subject).disposed(by: bag)
         wrapper.subject.bind(to: ctl.rx.text).disposed(by: bag)
+        wrapper.current(self)
+        ctl.rx.text.orEmpty.bind(to:wrapper.subject).disposed(by: bag)
     }
 
     func bind(_ wrapper:SubjectWrapper<Bool>,ctl:UISwitch){
         wrapper.subject.debug().subscribe(onNext: { s in
             self.m?[keyPath:wrapper.keyPath] = s
         }).disposed(by: bag)
-        ctl.rx.isOn.bind(to:wrapper.subject).disposed(by: bag)
         wrapper.subject.bind(to: ctl.rx.isOn).disposed(by: bag)
+        wrapper.current(self)
+        ctl.rx.isOn.bind(to:wrapper.subject).disposed(by: bag)
     }
     
     func bind(_ wrapper:SubjectWrapper<Date?>,ctl:UIDatePicker){
         wrapper.subject.debug().subscribe(onNext: { s in
             self.m?[keyPath:wrapper.keyPath] = s
         }).disposed(by: bag)
-        ctl.rx.date.bind(to: wrapper.subject).disposed(by: bag)
         wrapper.subject.bind { d in
             guard d != nil else{return}
             ctl.rx.date.onNext(d!)
         }.disposed(by: bag)
+        wrapper.current(self)
+        ctl.rx.date.bind(to: wrapper.subject).disposed(by: bag)
     }
     
 }

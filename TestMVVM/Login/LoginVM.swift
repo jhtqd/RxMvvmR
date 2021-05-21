@@ -16,6 +16,7 @@ class LoginVM : MvvmVM<LoginM>{
         super.init()
         self.vc = vc
         self.m = m
+        self.m.vm = self
     }
 
     let usernameWrapper = SubjectWrapper<String>(keyPath: \LoginM.username)

@@ -8,12 +8,12 @@ class TableView1M : MvvmM{
 
     var blogs: [Blog] = []
     var user:User?
-    var color:UIColor?
+    var color:UIColor? = UIColor.blue
     
 
     func requestData()->PublishSubject<[Blog]>{
         let r = PublishSubject<[Blog]>()
-        DispatchQueue.global().asyncAfter(deadline: .now() + 1, execute: {
+        DispatchQueue.global().asyncAfter(deadline: .now() + 0.1, execute: {
             var arr = [Blog]()
             for i:Int64 in 0..<20{
                 let blog = Blog()
