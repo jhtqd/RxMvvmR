@@ -10,7 +10,8 @@
 # Model
   即要操作的数据，内部定义了：  
   1.数据属性，例如：用户姓名，年龄等等  
-  2.存取数据的方法：例如从磁盘、数据库、网络读取数据；保存数据到各种地方，等等。与服务器的所有网络交互，包括数据打包和解析代码，放在Model里也是可以的（上行和下行的所有东西，都可以当做是数据传递）  
+  2.存取数据的方法：例如从磁盘、数据库、网络读取数据；保存数据到各种地方，等等。  
+  与服务器的所有网络交互，包括数据打包和解析代码，放在Model里也是可以的（上行和下行的所有东西，都可以当做是数据传递）  
   注：Model != Entity，不要混淆二者的定义
 ```swift
     struct User{...}   //这是Entity
@@ -30,10 +31,15 @@
   View ----->  ViewModel -----> Model  
   View数据被用户修改后，自动通过ViewModel同步到Model  
   
-  本方案里，直接修改Model不会自动同步到ViewModel和View，但有简单的变通解决方法。  
+  本方案里，直接修改Model不会自动同步到ViewModel和View；Model里都是属性，如果每个属性添加didSet，会导致model变得复杂，故此方案保持Model的简洁。  
+  修改Model数据有两个方法：  
+  1.修改Model，然后调用ViewModel的 reload(wrapper),修改哪个属性，对应的wrapper就要reload一下  
+  2.直接调用wrapper.next(新值)，调用后，View和Model均自动更新  
+
         
   主要定义了：  
-  1.各个属性的连接点的定义：连接点既是Observable，又是Ovserver，默认采用的是PublishSubject；同时，为了使用方便，对连接点进行了包装：SubjectWrapper<T>,这个包装既包含Subject，又包含属性的  KeyPath
+  1.各个属性的连接点的定义：连接点既是Observable，又是Ovserver，默认采用的是PublishSubject；  
+  同时，为了使用方便，对连接点进行了包装：SubjectWrapper<T>,这个包装既包含Subject，又包含属性的  KeyPath  
   2.连接点的绑定：绑定后，双向同步即可正常工作  
   3.连接点更多绑定：例如：密码输入6位以上，登录按钮才变为可用，此时，密码的连接点需要更多的绑定，用以更新登录按钮  
   4.业务逻辑的处理（网络交互部分转给Model处理）  
