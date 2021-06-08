@@ -13,6 +13,7 @@
 		CE3804882656C66800B43763 /* MvvmBaseUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3804832656C66800B43763 /* MvvmBaseUIViewController.swift */; };
 		CE3804892656C66800B43763 /* MvvmM.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3804842656C66800B43763 /* MvvmM.swift */; };
 		CE38048A2656C66800B43763 /* MvvmVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE3804852656C66800B43763 /* MvvmVM.swift */; };
+		CE4E1F2F266F444D00736BE5 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4E1F2E266F444D00736BE5 /* Operators.swift */; };
 		CEAD47C726552CE5006FBFC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD47C626552CE5006FBFC5 /* AppDelegate.swift */; };
 		CEAD47C926552CE5006FBFC5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD47C826552CE5006FBFC5 /* SceneDelegate.swift */; };
 		CEAD47CB26552CE5006FBFC5 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAD47CA26552CE5006FBFC5 /* LoginVC.swift */; };
@@ -37,6 +38,7 @@
 		CE3804832656C66800B43763 /* MvvmBaseUIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MvvmBaseUIViewController.swift; sourceTree = "<group>"; };
 		CE3804842656C66800B43763 /* MvvmM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MvvmM.swift; sourceTree = "<group>"; };
 		CE3804852656C66800B43763 /* MvvmVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MvvmVM.swift; sourceTree = "<group>"; };
+		CE4E1F2E266F444D00736BE5 /* Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		CEAD47C326552CE5006FBFC5 /* TestMVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestMVVM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEAD47C626552CE5006FBFC5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CEAD47C826552CE5006FBFC5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				CE3804812656C66800B43763 /* UIVC */,
 				CE3804842656C66800B43763 /* MvvmM.swift */,
 				CE3804852656C66800B43763 /* MvvmVM.swift */,
+				CE4E1F2E266F444D00736BE5 /* Operators.swift */,
 			);
 			name = RxMvvmR;
 			path = TestMVVM/RxMvvmR;
@@ -307,6 +310,7 @@
 				CE3804882656C66800B43763 /* MvvmBaseUIViewController.swift in Sources */,
 				CEAD47C726552CE5006FBFC5 /* AppDelegate.swift in Sources */,
 				CEAD47C926552CE5006FBFC5 /* SceneDelegate.swift in Sources */,
+				CE4E1F2F266F444D00736BE5 /* Operators.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

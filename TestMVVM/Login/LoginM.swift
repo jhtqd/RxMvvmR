@@ -13,10 +13,13 @@ import RxCocoa
 class LoginM : MvvmM{
     weak var vm:LoginVM?
 
-    var username:String = "test_user load from local"
-    var password:String = "123456"
-    var isAbc:Bool = false
-    var birthday:Date? = Date()
+    var test = BehaviorRelay<String>(value: "")
+    
+    var username = BehaviorRelay<String>(value: "test_user")
+    var password = BehaviorRelay<String>(value: "123456")
+    var isAbc = BehaviorRelay<Bool>(value: false)
+    var birthday = BehaviorRelay<Date>(value: Date())
+    
         
     func requestLogin()->PublishSubject<User>{
         let r = PublishSubject<User>()

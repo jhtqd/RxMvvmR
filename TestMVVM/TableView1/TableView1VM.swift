@@ -13,32 +13,21 @@ class TableView1VM : MvvmVM<TableView1M>{
         self.m.vm = self
     }
     
-    let blogsWrapper = SubjectWrapper_Ro<[Blog]>(keyPath: \TableView1M.blogs)
-    let userWrapper = SubjectWrapper_Ro<User?>(keyPath: \TableView1M.user)
-    let colorWrapper = SubjectWrapper_Ro<UIColor?>(keyPath: \TableView1M.color)
-        
     func prepare(){
-        bind(userWrapper) { user in
-            self.vc.title = user?.name
-        }
+        
+        _ = vc!.tableView.rx.backgroundColor <-- m.color
+        
+        vc!.tableView.delegate = nil
+        vc!.tableView.dataSource = nil
+        
+        m.blogs.bind(to: vc!.tableView.rx.items(cellIdentifier: "Cell", cellType: UITableViewCell.self)){ (row, element, cell) in
+            cell.textLabel?.text = "\(element.title)"
+        }.disposed(by: bag)
+        
+        vc!.tableView.rx.modelSelected(Blog.self).subscribe(onNext: {
+            print("tap index: \($0)")
+        }).disposed(by: bag)
 
-        bind(colorWrapper, ctl: self.vc.tableView.rx.backgroundColor)
-        
-        bind_Table(
-            blogsWrapper,
-            ctl: vc!.tableView,
-            cellIdentifier: "Cell",
-            cellType: TableView1Cell.self
-            ){
-            (row,element, cell) in
-            cell.setData(blog: element)            
-        }
-        
-        vc.tableView.rx
-            .modelSelected(Blog.self)
-            .subscribe(onNext: { value in
-                print("开始选中====\(value.title)")
-            }).disposed(by: bag)        
     }
 }
 
@@ -49,7 +38,7 @@ extension TableView1VM{
             .observe(on: MainScheduler.instance)
             .subscribe(
                 onNext: {[weak self] arr in
-                    self?.blogsWrapper.next(arr)
+                    self?.m.blogs.accept(arr)
                 },
                 onError: {e in
                     print(e.localizedDescription)

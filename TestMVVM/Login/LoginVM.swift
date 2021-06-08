@@ -16,27 +16,24 @@ class LoginVM : MvvmVM<LoginM>{
         super.init()
         self.vc = vc
         self.m = m
-        self.m.vm = self
+        self.m.vm = self        
     }
-
-    let usernameWrapper = SubjectWrapper<String>(keyPath: \LoginM.username)
-    let passwordWrapper = SubjectWrapper<String>(keyPath: \LoginM.password)
-    let isAbcWrapper = SubjectWrapper<Bool>(keyPath: \LoginM.isAbc)
-    let birthdayWrapper = SubjectWrapper<Date?>(keyPath: \LoginM.birthday)
-
-    lazy var isBtnEnabled = {
-        Observable.combineLatest(usernameWrapper.subject,passwordWrapper.subject) { un, pwd -> Bool in
-            return un.count > 0 && pwd.count >= 6
-        }
-    }()
-        
+    
+    var isBtnEnabled : Observable<Bool>?
+    
     func prepare(){
-        bind(usernameWrapper,ctl: vc!.tf1)
-        bind(passwordWrapper,ctl: vc!.tf2)
-        bind(isAbcWrapper,ctl: vc!.sw1)
-        bind(birthdayWrapper,ctl: vc!.dp1)
+        _ = vc!.tf.rx.textInput <->  m.test
+        _ = vc!.tf1.rx.textInput <->  m.username
+        _ = vc!.tf2.rx.textInput <->  m.password
+        _ = vc!.sw1.rx.isOn <->  m.isAbc
+        _ = vc!.dp1.rx.date <->  m.birthday
+
+        isBtnEnabled = Observable.combineLatest(m.username,m.password) { un, pwd -> Bool in
+                        return un.count > 0 && pwd.count >= 6
+                    }
         
-        isBtnEnabled.debug("isBtnEnabled:", trimOutput: true).bind(to: (vc!.btnLogin.rx.isEnabled)).disposed(by: bag)
+        isBtnEnabled?.debug().bind(to: (vc!.btnLogin.rx.isEnabled)).disposed(by: bag)
+
     }
 }
 
@@ -51,6 +48,9 @@ extension LoginVM{
                 }
             )
             .disposed(by: bag)
+    }
+    func doBtn2(){
+        m.test.accept("abc")
     }
 }
 

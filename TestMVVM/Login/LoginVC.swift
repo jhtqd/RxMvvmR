@@ -29,6 +29,7 @@ class LoginVC: MvvmBaseUIViewController<LoginVM,LoginM>{
         #endif
     }
     
+    @IBOutlet weak var tf: UITextField!
     @IBOutlet weak var sw1: UISwitch!
     @IBOutlet weak var dp1: UIDatePicker!
     @IBOutlet weak var tf1: UITextField!
@@ -41,20 +42,20 @@ class LoginVC: MvvmBaseUIViewController<LoginVM,LoginM>{
         vm.doLogin()
     }
     @IBAction func btn2Clicked(_ sender: Any){
-        
+        vm.doBtn2()
     }
 }
 
 #if DEBUG
 extension LoginVC{
     func fillDebugData(){
-        DispatchQueue.main.asyncAfter(deadline: .now()+1) {
-            self.vm.usernameWrapper.next("new name test_user load from remote")
-            self.vm.passwordWrapper.next("666666")
-            self.vm.isAbcWrapper.next(false)
-            let adate = Date(timeIntervalSince1970: 1000)
-            self.vm.birthdayWrapper.next(adate)
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+//            self.vm.usernameWrapper.next("new name test_user load from remote")
+//            self.vm.passwordWrapper.next("666666")
+//            self.vm.isAbcWrapper.next(false)
+//            let adate = Date(timeIntervalSince1970: 1000)
+//            self.vm.birthdayWrapper.next(adate)
+//        }
     }
 }
 #endif

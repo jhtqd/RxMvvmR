@@ -8,7 +8,7 @@ class TableView1VC: MvvmBaseUITableViewController<TableView1VM,TableView1M>{
     func createMvvm(user:User?){
         guard self.vm == nil else {return}
         self.vm = TableView1VM(vc:self,m:TableView1M())
-        vm.m.user = user
+        vm.m.user.accept(user)
     }
     
     override func viewDidLoad() {

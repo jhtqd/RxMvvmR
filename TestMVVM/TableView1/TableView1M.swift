@@ -5,11 +5,10 @@ import RxCocoa
 
 class TableView1M : MvvmM{
     weak var vm:TableView1VM?
-
-    var blogs: [Blog] = []
-    var user:User?
-    var color:UIColor? = UIColor.blue
     
+    var blogs = BehaviorRelay<[Blog]>(value: [])
+    var user = BehaviorRelay<User?>(value: nil)
+    var color = BehaviorRelay<UIColor?>(value: UIColor.blue)
 
     func requestData()->PublishSubject<[Blog]>{
         let r = PublishSubject<[Blog]>()
